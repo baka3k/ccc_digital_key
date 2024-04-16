@@ -5,7 +5,7 @@ The knowledge you need to know when starting a CCC-Digigal-Key Project, It will 
     -   BLE
     -   UWB
 - Basic Knowledge of Encryption Standards:
-    -   [PKI]([https://en.wikipedia.org/wiki/](https://en.wikipedia.org/wiki/Public_key_infrastructure)
+    -   [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure)
     -   [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm)
     -   [NIST P-256](https://csrc.nist.gov/csrc/media/events/workshop-on-elliptic-curve-cryptography-standards/documents/papers/session6-adalier-mehmet.pdf)
 - [Card Emulator](https://developer.android.com/develop/connectivity/nfc/hce)
