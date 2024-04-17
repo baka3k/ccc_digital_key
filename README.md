@@ -26,7 +26,7 @@ Secondly, the App Applet(Digital key Applet) has been loaded in Secure Element. 
 ```
 SELECT Command(A000000809434343444B417631h)
 ```
-**Step: 4 & 5**: then, the Vehicle inits a standard transaction request by sending AUTH0 Command. 
+**Step: 4 & 5** then, the Vehicle inits a standard transaction request by sending AUTH0 Command. 
 ```
 // Vehicle send Auth0 command
 AUTH0 Command(applet_ver | vehicle_ePk | transaction_identifier | vehicle_identifier)
@@ -60,7 +60,7 @@ If the verification is successful, the two-way authentication process between th
 
 ------
 
-**Step: 14 & Step: 15** 
+**Step: 14 & 15** 
 The ECDH algorithm facilitates the secure negotiation of a shared secret key, a symmetric key, without requiring any prior storage of the key.
 ```
 //vehicle 
@@ -70,7 +70,7 @@ DHKEY = [Endpoint.eSK * Vehicle.ePK | Transaction_identifier]
 ```
 In this way, the Vehicle and the Mobile Phone negotiate a symmetric key KDH **WITHOUT** key transmission.
 
-**Step: 16 & Step: 17**   
+**Step: 16 & 17**   
 The vehicle and the mobile phone can use the derived symmetric key (KDH) to discretize the necessary keys (Kenc, Kmac, Krmac) for establishing a secure channel.
 
 The information required for discretization (Listing 15-20: AUTH1 Processing-Page 225)
@@ -79,7 +79,7 @@ info ⟵ cod.vehicle_ePK.x || cod.endpoint_ePK.x || cod.transaction_identifier |
 ```
 This involves feeding the derived key (KDH) and additional information into the SHA-256 hash function. The resulting 48-byte output can then be split into three 16-byte keys used to secure the communication channel.
 
-**Step: 18 & Step: 19** 
+**Step: 18 & 19** 
 This step is similar to the previous one. Here, the vehicle and the mobile phone also generate another 32-byte symmetric key, called Kpersistent. The information required for its generation"
 
 ```
