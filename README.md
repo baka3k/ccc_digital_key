@@ -22,61 +22,72 @@ Secondly, the App Applet(Digital key Applet) has been loaded in Secure Element. 
 
 <img src="https://i.imgur.com/Hmy74gN.jpg" title="source: imgur.com" />
 
-**Step: 2** the first - the vehicle **needs** to send a SELECT command to obtain the applet protocol version list on the Mobile Phone (HCE).
+**Step: 2** the first - the Vehicle **needs** to send a SELECT command to obtain the applet protocol version list on the Mobile Phone (HCE).
 ```
 SELECT Command(A000000809434343444B417631h)
 ```
-**Step: 4 & 5**: then, the vehicle inits a standard transaction request by sending AUTH0 Command. 
+**Step: 4 & 5**: then, the Vehicle inits a standard transaction request by sending AUTH0 Command. 
 ```
 // Vehicle send Auth0 command
 AUTH0 Command(applet_ver | vehicle_ePk | transaction_identifier | vehicle_identifier)
 ```
 At the same time, the vehicle needs to generate a temporary KeyPair(vehicle_ePk & vehicle_eSk), the transaction identifier is randomly generated when initiating a standard transaction request, and the vehicle identifier is the unique number of the vehicle. The vehicle end prepares these parameter data and sends it to the mobile phone through the AUTH0 command.
 
-**Step: 6 & 7** is that the Mobile Phone also generates its own temporary KeyPair(endpoint_ePk & endpoint_eSk), which is given to the Vehicle when the AUTH0 command is responded, which is equivalent to the vehicle and Mobile Phone completing the exchange of information - It's first HandShake Step.
+**Step: 6 & 7** Mobile Phone(EndPoint/Device) also generates its own temporary KeyPair(endpoint_ePk & endpoint_eSk), this key pair is then provided to the Vehicle in the AUTH0 response, completing the first handshake step in the communication process
 
-**Step: 8 & 9** is the AUTH1 Command command sent by the Vehicle. The main parameter carried by this command is the signature of the vehicle. It mainly uses the **Vehicle private key** (`not the temporary private key generated previously`) to sign the following content and send it to the Mobile phone(Endpoint)
+**Step: 8 & 9** Vehicle send AUTH1 Command.
+
+The primary parameter of AUTH1 Command is the vehicle's signature -  generated using its permanent **Vehicle private key** (`not the temporary private key generated previously`) to sign the following content and send it to the Mobile phone(Endpoint)
 ```
 // Vehicle send Auth1 Command
 vehicle_sig = vehicle_PK_Sign_to (vehicle_identifier | endpoint_ePK.x | vehicle_ePK.x | transaction_identifier | usage = 415D9569h)
 
 AUTH1 Command(vehicle_sig)
 ```
-**Step: 10**  Mobile Phone Verify the signature vehicle_sig when receives 
+**Step: 10**  Upon receiving the message from the Vehicle, the Mobile Phone verifies the vehicle's signature (vehicle_sig) by Vehicle_Pk (`not the temporary key/vehicle_ePk`)
 
-**Step: 11** If the Mobile Phone passes the vehicle Signature verification, the Mobile Phone will also use its own permanent Private key - endPoint_sK to sign the following content to obtain the terminal signature:
+**Step: 11** 
+If the Mobile Phone successfully verifies the vehicle's signature - `vehicle_sig`, it will then use its own permanent private key (endPoint_sK) to sign the following content to create the Endpoint's signature.
 ```
 endpoint_sig = (vehicle_identifier | endpoint_ePK.x | vehicle_ePK.x | usage = 4E887B4Ch) 
 ```
 then feedback to the Vehicle.
 
-**Step: 13**  The vehicle receives the signature of the Mobile Phone (endpoint_sig) and also performs the signature verification operation by endPoint_pK. 
+**Step: 13** 
+The Vehicle receives the Mobile Phone's signature (endpoint_sig) and verifies it using the Mobile Phone's public key (endPoint_pK `not the temporary key`).
 
-If the signature verification is successful, the vehicle and the mobile phone complete the two-way authentication process.
+If the verification is successful, the two-way authentication process between the vehicle and the Mobile Phone is complete.
 
 ------
 
-**Step: 14 && Step: 15**  The ECDH algorithm can negotiate a shared key, which is a symmetric key (Symmetric Key), without storing the key in advance
+**Step: 14 & Step: 15** 
+The ECDH algorithm facilitates the secure negotiation of a shared secret key, a symmetric key, without requiring any prior storage of the key.
 ```
+//vehicle 
 DHKEY = [Vehicle.eSK * Endpoint.ePK | Transaction_identifier] 
-or
+//device or endpoint
 DHKEY = [Endpoint.eSK * Vehicle.ePK | Transaction_identifier] 
 ```
-In this way, the Vehicle and the Mobile Phone negotiate a symmetric key KDH **without** key transmission.
+In this way, the Vehicle and the Mobile Phone negotiate a symmetric key KDH **WITHOUT** key transmission.
 
-**Step: 16 && Step: 17**   The vehicle and the mobile phone can use the symmetric key KDH to discretize the keys Kenc/Kmac/Krmac required to establish a secure channel. 
+**Step: 16 & Step: 17**   
+The vehicle and the mobile phone can use the derived symmetric key (KDH) to discretize the necessary keys (Kenc, Kmac, Krmac) for establishing a secure channel.
 
 The information required for discretization (Listing 15-20: AUTH1 Processing-Page 225)
 ```
 info ⟵ cod.vehicle_ePK.x || cod.endpoint_ePK.x || cod.transaction_identifier || interface_byte || cod.flag || “Volatile” || 5Ch || 02h || cod.current_protocol_version
 ```
-which is to input Kdh and info information into the SHA-256 encryption algorithm , the derived 48bytes key can be decomposed into three 16-byte secure channel keys.
+This involves feeding the derived key (KDH) and additional information into the SHA-256 hash function. The resulting 48-byte output can then be split into three 16-byte keys used to secure the communication channel.
 
-**Step: 18 && Step: 19**  is similar to the previous step. In this step, the vehicle and the mobile phone also generate a 32-byte symmetric key Kpersistent. The information required for discrete time 
+**Step: 18 & Step: 19** 
+This step is similar to the previous one. Here, the vehicle and the mobile phone also generate another 32-byte symmetric key, called Kpersistent. The information required for its generation"
+
 ```
 info ⟵ cod.vehicle_ePK.x || cod.endpoint_ePK.x || cod.transaction_identifier || interface_byte || cod.flag || “Persistent” || 5Ch || 02h || cod.current_protocol_version
 ```
-which is derived by  inputting Kdh and info information into the SHA-256 encryption algorithm The 32-byte key comes out as Kpersistent. Kpersistent is a long-term symmetric key used to derive encryption keys and session keys. It is stored in the NVM of the vehicle and mobile phone. Kpersisent will not be used in the next secure communication. It is stored and used for fast transactions, so it must go through standard transactions before fast transactions are possible.
+
+This key, called Kpersistent, is derived similarly to the previous key by feeding the KDH key and additional information into the SHA-256 hashing function. The resulting 32-byte output is Kpersistent. Unlike the previous key, Kpersistent is a **long-term** symmetric key used to derive encryption keys and session keys. It's stored in the non-volatile memory (NVM) of both the vehicle and the mobile phone. 
+However, Kpersistent won't be used directly in the next secure communication. It is stored and used for `Fast Transactions`. So it must go through Standard Transactions before Fast Transactions are possible
 ```
 compute derived_keys according to Listing 15-45 using cod.Kdh, info, keying_material_length
 cod.Kenc ⟵ subset of derived_keys at offset 0 with length 16
@@ -88,7 +99,7 @@ compute derived_keys according to Listing 15-45 using cod.Kdh, info, keying_mate
 Kpersistent ⟵ subset of derived_keys at offset 0 with length 32
 ```
 
-**After generating the secure channel key and long-term key Kpersistent, both parties to the transaction can continue related application operations based on the established secure channel, such as mailbox reading and writing, and then end the current transaction. At the same time, because both parties to the transaction generate and save Kpersistent, the two parties can use a fast transaction method to establish a secure channel for the next transaction. That is, after a standard transaction, Kpersistent can be used for quick identity verification later. This is a bit It is similar to the LTK generated after Bluetooth pairing.**
+**With the secure channel key and long-term key Kpersistent established, both parties can proceed with secure communication for application operations like mailbox access. Once the current transaction is complete, Kpersistent is stored on both sides, allowing for faster secure channel establishment in future transactions. In essence, Kpersistent functions similarly to the LTK (Long-Term Key) generated after Bluetooth pairing, facilitating quicker identity verification for subsequent interactions.**
 
 # CCC-Digital-Key-Sample
 This project provides
