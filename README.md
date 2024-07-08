@@ -1,5 +1,5 @@
 # Getting started
-The knowledge you need to know when starting a CCC-Digigal-Key Project, It will help you approach the project easier:
+Here's the knowledge you need to know when starting a CCC-Digital-Key Project. It will help you approach the project more easily:
 - Communication technology operating over a radio:
     -   NFC
     -   BLE
