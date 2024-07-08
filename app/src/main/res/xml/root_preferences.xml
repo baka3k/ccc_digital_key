@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Config Digital key">
+
+        <SwitchPreferenceCompat
+            app:key="fastaccess"
+            app:summaryOff="Always ask PIN to access"
+            app:summaryOn="Do not need PIN to Access"
+            app:title="Fast Access" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

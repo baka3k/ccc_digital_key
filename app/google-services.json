@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "630281949115",
+    "firebase_url": "https://testdigitalkey-38bf2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "testdigitalkey-38bf2",
+    "storage_bucket": "testdigitalkey-38bf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630281949115:android:62f01c3a369b63521bbe9e",
+        "android_client_info": {
+          "package_name": "com.example.firebasetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630281949115-5ge4g2csftghulb8kumfhhm9tsfenbm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACx_1VpB6SWqOt4mw58odX5aILvkk0nZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630281949115-5ge4g2csftghulb8kumfhhm9tsfenbm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630281949115:android:4631a5e2f5ae45071bbe9e",
+        "android_client_info": {
+          "package_name": "com.example.nfctag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630281949115-5ge4g2csftghulb8kumfhhm9tsfenbm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACx_1VpB6SWqOt4mw58odX5aILvkk0nZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630281949115-5ge4g2csftghulb8kumfhhm9tsfenbm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

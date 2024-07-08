@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Digital Key Emulator</string>
+    <string name="app_name_transferkey">Vehicle OEM Server Emulator</string>
+    <string name="warning_enable_nfc">Please enable NFC </string>
+    <string name="note_for_transferKey">You should `transfer key` at the first time, This is the simulated action of Vehicle OEM Server key distribution</string>
+    <string name="note_for_nfc_reader">NOTICE: Using `Open Reader NFC` to SELECT AID A000000809434343444B467631h (5.1 Supported Commands for Owner Pairing-CCC-TS-101-Digital-Key-R3_1.0.0.pdf)</string>
+    <string name="title_activity_emulator_car">EmulatorCarActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+    <string name="always_ask_pin_to_access">Fast Access Off - Always ask PIN to access</string>
+    <string name="do_not_need_pin_to_access">Fast Access On - Do not need PIN to access</string>
+    <string name="device_digital_key">Device Digital Key</string>
+    <string name="vehicle_emulator">Vehicle Emulator</string>
+</resources>
