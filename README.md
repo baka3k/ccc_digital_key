@@ -1,5 +1,5 @@
 # Getting started
-The knowledge you need to know when starting a CCC-Digigal-Key Project, It will help you approach the project easier:
+Here's the knowledge you need to know when starting a CCC-Digital-Key Project. It will help you approach the project more easily:
 - Communication technology operating over a radio:
     -   NFC
     -   BLE
@@ -299,6 +299,7 @@ cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(derivedKey, "AES"))
 val decryptedPayload = cipher.doFinal(encryptedPayload)
 ```
 -   Packet decryption successful - secure handshake established.
+-   NOTE: This code is **ONLY used to test** key exchange using the DH algorithm. In fact, the essence of this step(Vehicle extracts package) is still signature verification.
 # Environment Setup
 
 -   Mac Mini M1
@@ -308,8 +309,11 @@ val decryptedPayload = cipher.doFinal(encryptedPayload)
 -   Android Plugin : 8.4.0-alpha13 (or upper)
     -   Gradle Distribution url: https://services.gradle.org/distributions/gradle-8.6-bin.zip
 -   Kotlin: 1.8.0 (or upper)  - kotlin-jvm: 1.9.20 (or upper)
-# Source Code
-TBD
+# Notice (again & again)
+
+- **I have bypassed best practices for key storage, file security, and configuration security. Please note that these practices are essential 
+and should be implemented in a real project**
+
 ## License
 ```
    Copyright 2023 baka3k
