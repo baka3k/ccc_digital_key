@@ -312,7 +312,7 @@ val decryptedPayload = cipher.doFinal(encryptedPayload)
 # Notice (again & again)
 
 - **I have bypassed best practices for key storage, file security, and configuration security. Please note that these practices are essential 
-and should be implemented in a real project**
+and MUST be implemented in a real project**
 
 ## License
 ```
